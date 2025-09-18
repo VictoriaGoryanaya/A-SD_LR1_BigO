@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
-#include <algorithm> //std::count
+#include <algorithm> //std::count, max
 
 int list_merging(std::vector<int>& arr1, const std::vector<int>& arr2)
 {
@@ -35,6 +35,12 @@ std::vector<int> generate_random_list(int n,  int min_val = 0, int max_val = 100
     return arr;
 }
 
+void draw_bar(const std::string& label, double value, double max_value, int width = 50){
+    int bar_len = static_cast<int>((value/max_value) * width);
+    if (bar_len == 0)
+    bar_len = 1;
+    std::cout << label <<" (" << value <<" secs): " << std::string(bar_len, '#') << "\n";
+}
 int main()
 {
     srand(static_cast<unsigned int>(time(nullptr)));
@@ -64,6 +70,11 @@ int main()
         std::cout << "New size : copy: " << new_size_copy << "\n";
         std::cout << "Spent time : copy: " << elapsed_copy.count() << "secs\n";
         std::cout << "Comlexity of the algorithm is O(n)\n";
+
+        double max_time = std::max(elapsed.count(), elapsed_copy.count());
+        std::cout <<"Visualization:\n";
+        draw_bar("Cycles", elapsed.count(), max_time);
+        draw_bar("Copy  ", elapsed_copy.count(), max_time);
         std::cout << "-----------------------------------\n";
     }
     return 0;
